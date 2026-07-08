@@ -1,0 +1,374 @@
+/* ============================================================
+   Do It — base styles (STEP 1: scaffolding)
+   Mobile-first layout, centered, max width 520px.
+   ============================================================ */
+
+:root {
+    /* Category colors (업무=blue, 개인=green, 학습=purple). */
+    --color-work: #3b6ef0;      /* 업무 */
+    --color-personal: #2fae66;  /* 개인 */
+    --color-study: #8b5cf6;     /* 학습 */
+
+    /* Neutral palette. */
+    --bg: #f4f4f7;
+    --surface: #ffffff;
+    --text: #1f2330;
+    --text-muted: #8a90a0;
+    --border: #e5e7ef;
+
+    --radius: 12px;
+    --gap: 14px;
+    --max-width: 520px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Segoe UI", "Malgun Gothic", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+}
+
+/* App shell: centered column, capped at 520px. */
+.app {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+    min-height: 100vh;
+}
+
+/* Cards / sections share a common surface look. */
+.header,
+.tabs,
+.add-form,
+.category-progress,
+.list {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Title + date stacked on the left of the header. */
+.header__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.header__title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.header__date {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+/* Overall progress dial (conic-gradient ring with % in the center). */
+.dial {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dial__inner {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+/* Per-category progress rows: label | bar | count. */
+.category-progress {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cat-prog {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cat-prog__label {
+    flex: 0 0 32px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.cat-prog__bar {
+    flex: 1 1 auto;
+    height: 8px;
+    background: var(--border);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.cat-prog__fill {
+    height: 100%;
+    width: 0;
+    border-radius: 999px;
+    transition: width 0.15s ease;
+}
+
+.cat-prog__count {
+    flex: 0 0 auto;
+    font-size: 12px;
+    color: var(--text-muted);
+    min-width: 32px;
+    text-align: right;
+}
+
+/* ---------- Category filter tabs ---------- */
+.tabs {
+    display: flex;
+    gap: 6px;
+    padding: 8px;
+}
+
+.tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 8px 4px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.tab--active {
+    background: var(--text);
+    color: #fff;
+    border-color: transparent;
+}
+
+/* Count badge on each tab. */
+.tab__badge {
+    font-size: 11px;
+    line-height: 1;
+    padding: 2px 6px;
+    border-radius: 999px;
+    background: var(--border);
+    color: var(--text-muted);
+}
+
+.tab--active .tab__badge {
+    background: rgba(255, 255, 255, 0.25);
+    color: #fff;
+}
+
+/* ---------- Add form ---------- */
+.add-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.add-form__input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 15px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    outline: none;
+}
+
+.add-form__input:focus {
+    border-color: var(--color-work);
+}
+
+.add-form__categories {
+    display: flex;
+    gap: 8px;
+}
+
+/* Category selector buttons; active state is set via .cat-btn--active. */
+.cat-btn {
+    flex: 1;
+    padding: 8px 0;
+    font-size: 14px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text-muted);
+}
+
+.cat-btn--active {
+    color: #fff;
+    border-color: transparent;
+}
+
+.cat-btn--active[data-category="work"]     { background: var(--color-work); }
+.cat-btn--active[data-category="personal"] { background: var(--color-personal); }
+.cat-btn--active[data-category="study"]    { background: var(--color-study); }
+
+/* Auto-classify button row. */
+.add-form__auto {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.auto-btn {
+    flex: 0 0 auto;
+    padding: 7px 12px;
+    font-size: 13px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text);
+}
+
+.auto-btn:hover {
+    border-color: var(--color-work);
+    color: var(--color-work);
+}
+
+/* Hint shown after clicking the auto-classify button. */
+.auto-hint {
+    font-size: 12px;
+    color: var(--color-work);
+}
+
+.add-form__submit {
+    padding: 10px 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    background: var(--color-work);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* ---------- Todo rows ---------- */
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.todo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.todo__check {
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--color-work);
+}
+
+/* Category pill; background color is set per category below. */
+.todo__cat {
+    flex: 0 0 auto;
+    font-size: 12px;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 999px;
+}
+
+.todo__cat[data-category="work"]     { background: var(--color-work); }
+.todo__cat[data-category="personal"] { background: var(--color-personal); }
+.todo__cat[data-category="study"]    { background: var(--color-study); }
+
+/* Completed todos: dimmed with a strikethrough title. */
+.todo--done { opacity: 0.55; }
+.todo--done .todo__title { text-decoration: line-through; }
+
+.todo__title {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.todo__edit {
+    flex: 1 1 auto;
+    padding: 6px 8px;
+    font-size: 15px;
+    border: 1px solid var(--color-work);
+    border-radius: 6px;
+    outline: none;
+}
+
+.todo__btn {
+    flex: 0 0 auto;
+    padding: 4px 7px;
+    font-size: 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--text-muted);
+}
+
+.todo__btn--danger {
+    color: #d9534f;
+}
+
+/* Empty-state message shown when the list has no todos. */
+.empty-state {
+    text-align: center;
+    color: var(--text-muted);
+    margin: 24px 0;
+}
+
+/* Toast: fixed at bottom-center, hidden by default. */
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+    background: #2b2f3a;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 999px;
+    font-size: 14px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+}
+
+.toast[hidden] { display: none; }
