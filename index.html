@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do It — 할일 관리</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- App shell: mobile-first, centered, max 520px (see styles.css). -->
+    <div class="app">
+
+        <!-- Header: app title + today's date on the left, overall progress dial on the right. -->
+        <header class="header">
+            <div class="header__info">
+                <h1 class="header__title">오늘의 할일</h1>
+                <div class="header__date" id="today-date"><!-- today's date --></div>
+            </div>
+            <div class="header__progress" id="overall-progress">
+                <!-- overall progress dial -->
+            </div>
+        </header>
+
+        <!-- Category filter tabs: 전체 / 업무 / 개인 / 학습 (filled in later steps). -->
+        <nav class="tabs" id="category-tabs">
+            <!-- filter tabs -->
+        </nav>
+
+        <!-- Add form: title input + category buttons + add button. -->
+        <form class="add-form" id="add-form">
+            <input
+                type="text"
+                id="title-input"
+                class="add-form__input"
+                placeholder="할일을 입력하세요"
+                maxlength="80"
+                autocomplete="off"
+                aria-label="할일 제목">
+            <div class="add-form__categories" id="category-select">
+                <button type="button" class="cat-btn" data-category="work">업무</button>
+                <button type="button" class="cat-btn" data-category="personal">개인</button>
+                <button type="button" class="cat-btn" data-category="study">학습</button>
+            </div>
+            <!-- Keyword-based auto-classify: sets the category from the title on click. -->
+            <div class="add-form__auto">
+                <button type="button" class="auto-btn" id="auto-classify-btn">🏷️ 자동 분류</button>
+                <span class="auto-hint" id="auto-hint" hidden></span>
+            </div>
+            <button type="submit" class="add-form__submit">추가</button>
+        </form>
+
+        <!-- Per-category progress bars (later steps). -->
+        <section class="category-progress" id="category-progress">
+            <!-- per-category progress -->
+        </section>
+
+        <!-- Todo list; shows empty-state message when there are no todos. -->
+        <main class="list" id="todo-list">
+            <p class="empty-state" id="empty-state">할일이 없어요</p>
+        </main>
+    </div>
+
+    <!-- Toast container for transient messages (e.g. save errors). -->
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
